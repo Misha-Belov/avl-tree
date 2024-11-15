@@ -4,15 +4,11 @@ project("avl-tree")
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-set(
-    AVL_TREE_FILES
-)
-
-#add_library(avl_tree STATIC ${AVL_TREE_FILES})
-#target_include_directories(avl_tree PUBLIC includes)
+add_library(avl_tree INTERFACE)
+target_include_directories(avl_tree INTERFACE includes)
 
 add_executable(tree_bin main.cpp)
-#target_link_libraries(tree_bin avl_tree)
+target_link_libraries(tree_bin avl_tree)
 
 
 include(FetchContent)
