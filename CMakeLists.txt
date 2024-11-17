@@ -22,16 +22,17 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-#add_executable(
-#tests_bin
-#)
+add_executable(
+  tests_bin
+  tests/avl_tree_test.cpp
+)
 
-#target_link_libraries(tests_bin avl_tree)
+target_link_libraries(tests_bin avl_tree)
 
-#target_link_libraries(
-#tests_bin
-#GTest::gtest_main
-#)
+target_link_libraries(
+  tests_bin
+  GTest::gtest_main
+)
 
-#include(GoogleTest)
-#gtest_discover_tests(tests_bin)
+include(GoogleTest)
+gtest_discover_tests(tests_bin)

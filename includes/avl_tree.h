@@ -15,7 +15,7 @@ public:
     ~avl_tree_t()
     {
         std::queue<iterator> nodes;
-        nodes.push(root);
+        nodes.push(root_);
         while (!nodes.empty()) {
             iterator cur = nodes.front();
             nodes.pop();
@@ -29,7 +29,7 @@ public:
 
     iterator insert_key(KeyT key)
     {
-        iterator *cur_node = &root;
+        iterator *cur_node = &root_;
         iterator parent = nullptr;
 
         while (*cur_node != nullptr) {
@@ -49,13 +49,34 @@ public:
         return *cur_node;
     }
 
+    bool is_balanced()
+    {
+        std::queue<iterator> nodes;
+        nodes.push(root_);
+        while (!nodes.empty()) {
+            iterator cur_node = nodes.front();
+            nodes.pop();
+
+            if (!cur_node)
+                continue;
+
+            int height_diff = height_diff_(cur_node);
+            if (height_diff > 1 || height_diff < -1)
+                return false;
+
+            nodes.push(cur_node->left);
+            nodes.push(cur_node->right);
+        }
+        return true;
+    }
+
     void print(std::ostream& out)
     {
-        print_recursive_(out, root, 0);
+        print_recursive_(out, root_, 0);
     }
 
 private:
-    _node::node_t<KeyT> *root = nullptr;
+    _node::node_t<KeyT> *root_ = nullptr;
 
     void print_recursive_(std::ostream& out, iterator node, size_t level)
     {
@@ -98,7 +119,7 @@ private:
             int height_diff = height_diff_(cur_node);
             if (height_diff > 1 || height_diff < -1) {
                 if (!cur_node->parent)
-                    balance_subtree_(&root);
+                    balance_subtree_(&root_);
                 else if (cur_node->parent->left == cur_node)
                     balance_subtree_(&cur_node->parent->left);
                 else
