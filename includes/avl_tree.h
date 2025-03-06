@@ -53,6 +53,13 @@ public:
         return *cur_node;
     }
 
+    template<typename Iterator>
+    void insert_keys(Iterator begin, Iterator end)
+    {
+        for (auto it = begin; it != end; ++it)
+            insert_key(*it);
+    }
+
     void print(std::ostream& out)
     {
         print_recursive_(out, root, 0);

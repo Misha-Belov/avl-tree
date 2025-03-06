@@ -35,12 +35,12 @@ int main()
             assert(val1 <= val2);
 
             T.print_interval(val1, val2);
-        } else {
+        } else if (std::cin.good()) {
             std::cout << "wrong request \n";
             break;
         }
     }
     
-    T.print(std::cout);
+    //T.print(std::cout);
     return 0;
 }

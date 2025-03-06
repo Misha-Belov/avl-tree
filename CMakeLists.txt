@@ -22,16 +22,13 @@ FetchContent_MakeAvailable(googletest)
 
 enable_testing()
 
-#add_executable(
-#tests_bin
-#)
+file(GLOB testfiles "tests/integration/*.dat")
 
-#target_link_libraries(tests_bin avl_tree)
-
-#target_link_libraries(
-#tests_bin
-#GTest::gtest_main
-#)
-
-#include(GoogleTest)
-#gtest_discover_tests(tests_bin)
+foreach(file ${testfiles})
+    get_filename_component(testname ${file} NAME_WE)
+    add_test(
+        NAME ${testname}
+        COMMAND python3 ${CMAKE_SOURCE_DIR}/run_test.py ${file} ./tree_bin
+        WORKING_DIRECTORY ${CMAKE_CURRENT_BINARY_DIR})
+    set_tests_properties(${testname} PROPERTIES DEPENDS tree_bin)
+endforeach()
