@@ -80,14 +80,14 @@ private:
             return;
         }
 
-        if (cur_node->left && cur_node->left->key >= a) {
+        if (cur_node->left && cur_node->key >= a) {
             print_interval_recursive_(a, b, cur_node->left);
         }
 
         if (cur_node->key >= a && cur_node->key <= b)
             std::cout << cur_node->key << " ";
 
-        if (cur_node->right && cur_node->right->key <= b) {
+        if (cur_node->right && cur_node->key <= b) {
             print_interval_recursive_(a, b, cur_node->right);
         }
 
