@@ -4,9 +4,8 @@ namespace avl_tree {
 namespace _node {
 
 template <typename KeyT>
-class node_t
+struct node_t
 {
-public:
     node_t(KeyT key) : key(key)
     {};
 
