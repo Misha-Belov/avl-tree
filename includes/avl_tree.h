@@ -1,6 +1,6 @@
 #pragma once
 
-#include <ostream>
+#include <iostream>
 #include <queue>
 #include "node.h"
 
@@ -14,6 +14,8 @@ public:
 
     ~avl_tree_t()
     {
+        if (!root_) return;
+
         std::queue<iterator> nodes;
         nodes.push(root_);
         while (!nodes.empty()) {
@@ -34,8 +36,10 @@ public:
 
         while (*cur_node != nullptr) {
             parent = *cur_node;
-            if (key <= (*cur_node)->key) {
+            if (key < (*cur_node)->key) {
                 cur_node = &(*cur_node)->left;
+            } else if (key == (*cur_node)->key) {
+                return *cur_node;
             } else {
                 cur_node = &(*cur_node)->right;
             }
@@ -75,19 +79,49 @@ public:
         print_recursive_(out, root_, 0);
     }
 
+    void print_interval(KeyT a, KeyT b)
+    {
+        print_interval_recursive_(a, b, root_);
+        std::cout << "\n";
+    }
+
+    
 private:
     _node::node_t<KeyT> *root_ = nullptr;
 
+    void print_interval_recursive_(KeyT a, KeyT b, iterator cur_node) {
+        if (!cur_node) {
+            return;
+        }
+
+        if (cur_node->left && cur_node->left->key >= a) {
+            print_interval_recursive_(a, b, cur_node->left);
+        }
+
+        if (cur_node->key >= a && cur_node->key <= b)
+            std::cout << cur_node->key << " ";
+
+        if (cur_node->right && cur_node->right->key <= b) {
+            print_interval_recursive_(a, b, cur_node->right);
+        }
+
+        return;
+    }
+
     void print_recursive_(std::ostream& out, iterator node, size_t level)
     {
+        if (!root_) return;
+
+        if (node->right)
+            print_recursive_(out, node->right, level + 1);
+
         for (size_t i = 0; i < level; ++i)
-            out << "  ";
+            out << "        ";
         out << node->key << "(H: " << node->height << ")" << "\n";
 
         if (node->left)
             print_recursive_(out, node->left, level + 1);
-        if (node->right)
-            print_recursive_(out, node->right, level + 1);
+        
     }
 
     int height_diff_(iterator node)
